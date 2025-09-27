@@ -768,7 +768,6 @@ vendor/etc/init/init.conninfra.rc
 vendor/firmware/conninfra.cfg
 
 # Display
-vendor/bin/hw/android.hardware.graphics.composer@3.1-service
 vendor/bin/hw/mt6886/android.hardware.graphics.allocator@4.0-service-mediatek.mt6886;SYMLINK=vendor/bin/hw/android.hardware.graphics.allocator@4.0-service-mediatek
 vendor/etc/displayconfig/display_id_4627039422300187648.xml
 vendor/etc/gralloc/cam.xml
@@ -777,8 +776,6 @@ vendor/etc/gralloc/dpu_aeu.xml
 vendor/etc/gralloc/gpu.xml
 vendor/etc/gralloc/vpu.xml
 vendor/etc/init/android.hardware.graphics.allocator@4.0-service-mediatek.rc
-vendor/etc/init/android.hardware.graphics.composer@3.1-service.rc
-vendor/etc/vintf/manifest/manifest_hwcomposer.xml
 vendor/lib64/hw/hwcomposer.mtk_common.so
 vendor/lib64/hw/mt6886/android.hardware.graphics.allocator@4.0-impl-mediatek.so;SYMLINK=vendor/lib64/hw/android.hardware.graphics.allocator@4.0-impl-mediatek.so
 vendor/lib64/hw/mt6886/android.hardware.graphics.mapper@4.0-impl-mediatek.so;SYMLINK=vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-mediatek.so
