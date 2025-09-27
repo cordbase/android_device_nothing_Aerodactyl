@@ -14,6 +14,9 @@
      limitations under the License.
 -->
 
+<!-- Include Dolby Audio MediaCodecs -->
+    <Include href="media_codecs_dolby_audio.xml" />
+
 <MediaCodecs>
     <Settings>
         <!-- disable TV and telephony domains by default. These must be opted in by OEMs -->
