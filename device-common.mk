@@ -91,7 +91,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Display
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer3-service.mediatek \
     android.hardware.memtrack-service.mediatek-mali
 
 PRODUCT_COPY_FILES += \
