@@ -91,7 +91,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Display
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer3-service.mediatek \
     android.hardware.memtrack-service.mediatek-mali
 
 PRODUCT_COPY_FILES += \
@@ -382,9 +381,8 @@ ifeq ($(TARGET_USES_NOTHING_CAMERA),true)
 
     # Add the framework jars
     PRODUCT_BOOT_JARS += \
-        nothing-framework \
-        com.nothing.sdk
-endif
+    androidx.window.sidecar \
+    androidx.window.extensions
 
 # Include Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
