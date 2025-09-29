@@ -384,8 +384,7 @@ ifeq ($(TARGET_USES_NOTHING_CAMERA),true)
 
     # Add the framework jars
     PRODUCT_BOOT_JARS += \
-        nothing-framework \
-        com.nothing.sdk
+        nothing-framework 
 endif
 
 # Include Dolby
