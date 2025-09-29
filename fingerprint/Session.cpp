@@ -11,8 +11,10 @@
 
 #include "Session.h"
 #include "Legacy2Aidl.h"
-
 #include "CancellationSignal.h"
+
+// MODIFICATION: Define the correct sysfs path for HBM control
+#define HBM_ENABLE_PATH "/sys/panel_feature/hbm_mode"
 
 namespace aidl {
 namespace android {
@@ -148,21 +150,22 @@ ndk::ScopedAStatus Session::resetLockout(const HardwareAuthToken& hat) {
 ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int32_t y, float minor,
                                           float major) {
     ALOGI("onPointerDown: x=%d, y=%d, minor=%f, major=%f", x, y, minor, major);
-
+    // MODIFICATION: Enable HBM when finger touches the screen
+    ::android::base::WriteStringToFile("1", HBM_ENABLE_PATH);
     return ndk::ScopedAStatus::ok();
 }
 
 ndk::ScopedAStatus Session::onPointerUp(int32_t /*pointerId*/) {
     ALOGI("onPointerUp");
-
+    // MODIFICATION: Disable HBM when finger is lifted
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
     return ndk::ScopedAStatus::ok();
 }
 
 ndk::ScopedAStatus Session::onUiReady() {
     ALOGI("onUiReady");
-
+    // This part of the original workaround is likely still needed to prepare the panel
     ::android::base::WriteStringToFile("1", "/sys/panel_feature/ui_status");
-
     return ndk::ScopedAStatus::ok();
 }
 
@@ -206,12 +209,12 @@ ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
 
 ndk::ScopedAStatus Session::cancel() {
     ALOGI("cancel");
+    // MODIFICATION: Ensure HBM is disabled if the operation is cancelled
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
 
     int ret = mDevice->cancel(mDevice);
-
     if (ret == 0) {
         mCb->onError(Error::CANCELED, 0 /* vendorCode */);
-
         return ndk::ScopedAStatus::ok();
     } else {
         return ndk::ScopedAStatus::fromServiceSpecificError(ret);
@@ -220,6 +223,8 @@ ndk::ScopedAStatus Session::cancel() {
 
 ndk::ScopedAStatus Session::close() {
     ALOGI("close");
+    // MODIFICATION: Ensure HBM is disabled when the session is closed
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
 
     mClosed = true;
     mCb->onSessionClosed();
@@ -235,8 +240,6 @@ bool Session::isClosed() {
     return mClosed;
 }
 
-// Translate from errors returned by traditional HAL (see fingerprint.h) to
-// AIDL-compliant Error
 Error Session::VendorErrorFilter(int32_t error, int32_t* vendorCode) {
     *vendorCode = 0;
     switch (error) {
@@ -258,7 +261,6 @@ Error Session::VendorErrorFilter(int32_t error, int32_t* vendorCode) {
         }
         default:
             if (error >= FINGERPRINT_ERROR_VENDOR_BASE) {
-                // vendor specific code.
                 *vendorCode = error - FINGERPRINT_ERROR_VENDOR_BASE;
                 return Error::VENDOR;
             }
@@ -267,8 +269,6 @@ Error Session::VendorErrorFilter(int32_t error, int32_t* vendorCode) {
     return Error::UNABLE_TO_PROCESS;
 }
 
-// Translate acquired messages returned by traditional HAL (see fingerprint.h)
-// to AIDL-compliant AcquiredInfo
 AcquiredInfo Session::VendorAcquiredFilter(int32_t info, int32_t* vendorCode) {
     *vendorCode = 0;
     switch (info) {
@@ -286,7 +286,6 @@ AcquiredInfo Session::VendorAcquiredFilter(int32_t info, int32_t* vendorCode) {
             return AcquiredInfo::TOO_FAST;
         default:
             if (info >= FINGERPRINT_ACQUIRED_VENDOR_BASE) {
-                // vendor specific code.
                 *vendorCode = info - FINGERPRINT_ACQUIRED_VENDOR_BASE;
                 return AcquiredInfo::VENDOR;
             }
@@ -356,7 +355,6 @@ void Session::notify(const fingerprint_msg_t* msg) {
                 mCb->onAcquired(result, vendorCode);
             } else {
                 ALOGW("onAcquired(AcquiredInfo::VENDOR, %d)", vendorCode);
-                // Do not send onAcquired or illumination will be turned off prematurely
             }
         } break;
         case FINGERPRINT_TEMPLATE_ENROLLING: {
