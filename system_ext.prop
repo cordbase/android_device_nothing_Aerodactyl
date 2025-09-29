@@ -26,3 +26,10 @@ media.stagefright.thumbnail.prefer_hw_codecs=true
 wifi.direct.interface=p2p0
 wifi.interface=wlan0
 wifi.tethering.interface=ap0
+
+#InfinityX device info
+ro.product.marketname=Phone (2a)
+ro.infinity.soc=MediaTek Dimensity 7200 Pro
+ro.infinity.battery=5000 mAh
+ro.infinity.display=1080 x 2400, 120 Hz
+ro.infinity.camera=50MP + 50MP
