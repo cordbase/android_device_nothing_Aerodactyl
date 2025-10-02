@@ -24,7 +24,7 @@ WITH_BCR := true
 WITH_GMS := true
 TARGET_USES_CORE_GAPPS := true
 PERF_ANIM_OVERRIDE := true
-PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
     ro.paranoid.maintainer=Himanshu
 
 
