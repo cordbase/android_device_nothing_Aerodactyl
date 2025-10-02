@@ -24,3 +24,19 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     DeviceProduct=Pacman \
     SystemDevice=Pacman \
     SystemName=Pacman
+
+# Axion Flags
+TARGET_ENABLE_BLUR := true
+
+# Camera information (multiple sensors supported)
+AXION_CAMERA_REAR_INFO := 50,50
+AXION_CAMERA_FRONT_INFO := 32
+
+# Maintainer name (underscores become spaces in the UI)
+AXION_MAINTAINER := Himanshu
+
+# Processor name (underscores become spaces)
+AXION_PROCESSOR := M4_Max
+
+# RAM
+TARGET_IS_LOW_RAM ?= false
