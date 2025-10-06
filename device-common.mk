@@ -363,3 +363,6 @@ PRODUCT_COPY_FILES += \
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/nothing/Aerodactyl/Aerodactyl-vendor.mk)
+
+# Include Dolby
+$(call inherit-product, hardware/dolby/dolby.mk)
