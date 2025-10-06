@@ -14,6 +14,9 @@
 
 #include "CancellationSignal.h"
 
+// MODIFICATION: Define the correct sysfs path for HBM control
+#define HBM_ENABLE_PATH "/sys/panel_feature/hbm_mode"
+
 namespace aidl {
 namespace android {
 namespace hardware {
@@ -148,13 +151,15 @@ ndk::ScopedAStatus Session::resetLockout(const HardwareAuthToken& hat) {
 ndk::ScopedAStatus Session::onPointerDown(int32_t /*pointerId*/, int32_t x, int32_t y, float minor,
                                           float major) {
     ALOGI("onPointerDown: x=%d, y=%d, minor=%f, major=%f", x, y, minor, major);
-
+    // MODIFICATION: Enable HBM when finger touches the screen
+    ::android::base::WriteStringToFile("1", HBM_ENABLE_PATH);
     return ndk::ScopedAStatus::ok();
 }
 
 ndk::ScopedAStatus Session::onPointerUp(int32_t /*pointerId*/) {
     ALOGI("onPointerUp");
-
+    // MODIFICATION: Disable HBM when finger is lifted
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
     return ndk::ScopedAStatus::ok();
 }
 
@@ -206,7 +211,8 @@ ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
 
 ndk::ScopedAStatus Session::cancel() {
     ALOGI("cancel");
-
+ // MODIFICATION: Ensure HBM is disabled if the operation is cancelled
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
     int ret = mDevice->cancel(mDevice);
 
     if (ret == 0) {
@@ -220,7 +226,9 @@ ndk::ScopedAStatus Session::cancel() {
 
 ndk::ScopedAStatus Session::close() {
     ALOGI("close");
-
+    // MODIFICATION: Ensure HBM is disabled when the session is closed
+    ::android::base::WriteStringToFile("0", HBM_ENABLE_PATH);
+    
     mClosed = true;
     mCb->onSessionClosed();
     AIBinder_DeathRecipient_delete(mDeathRecipient);
