@@ -220,13 +220,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.se.omapi.ese.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_JPN/android.hardware.se.omapi.ese.xml
 
 # Overlays
-PRODUCT_PACKAGES += \
-    NothingFrameworksResTarget \
-    NothingNfcResTarget \
-    NothingSettingsResTarget \
-    NothingSystemUIResTarget \
-    NothingTelephonyResTarget \
-    NothingWifiResTarget
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-custom
 
 PRODUCT_PACKAGES += \
     NcmTetheringOverlay
