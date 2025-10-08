@@ -4,5 +4,5 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aosp_Pacman.mk \
-    $(LOCAL_DIR)/aosp_PacmanPro.mk
+    $(LOCAL_DIR)/aosp_pacman.mk \
+    $(LOCAL_DIR)/aosp_pacmanPro.mk
