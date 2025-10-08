@@ -10,7 +10,7 @@ $(call inherit-product, device/nothing/Aerodactyl/device-Pacman.mk)
 $(call inherit-product, vendor/aosp/config/common_full_phone.mk)
 
 PRODUCT_BRAND := Nothing
-PRODUCT_DEVICE := Pacman
+PRODUCT_DEVICE := pacman
 PRODUCT_MANUFACTURER := Nothing
 PRODUCT_MODEL := A142
 PRODUCT_NAME := aosp_Pacman
