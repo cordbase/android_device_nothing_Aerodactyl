@@ -13,7 +13,7 @@ PRODUCT_BRAND := Nothing
 PRODUCT_DEVICE := pacman
 PRODUCT_MANUFACTURER := Nothing
 PRODUCT_MODEL := A142
-PRODUCT_NAME := aosp_Pacman
+PRODUCT_NAME := aosp_pacman
 
 PRODUCT_GMS_CLIENTID_BASE := android-nothing
 
