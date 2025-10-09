@@ -369,24 +369,5 @@ PRODUCT_COPY_FILES += \
 # Inherit the proprietary files
 $(call inherit-product, vendor/nothing/Aerodactyl/Aerodactyl-vendor.mk)
 
-# Nothing Camera & Experience Port ---
-TARGET_USES_NOTHING_CAMERA := true
-
-ifeq ($(TARGET_USES_NOTHING_CAMERA),true)
-    # Include the makefile that copies all nt-cam files
-    $(call inherit-product, hardware/nothing/nt-cam/nt-cam.mk)
-
-    # Add the packages with correct names
-    PRODUCT_PACKAGES += \
-        NTCamera \
-        NTGallery \
-        NothingExperience
-
-    # Add the framework jars
-    PRODUCT_BOOT_JARS += \
-        nothing-framework \
-        com.nothing.sdk
-endif
-
 # Include Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
