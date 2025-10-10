@@ -225,3 +225,6 @@ WIFI_FEATURE_SUPPLICANT_11AX := true
 
 # Inherit the proprietary files
 include vendor/nothing/Aerodactyl/BoardConfigVendor.mk
+
+# Include the Nothing Camera port
+include device/nothing/Aerodactyl-ntcamera/BoardConfig.mk
