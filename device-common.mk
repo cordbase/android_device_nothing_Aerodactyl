@@ -371,3 +371,6 @@ $(call inherit-product, vendor/nothing/Aerodactyl/Aerodactyl-vendor.mk)
 
 # Include Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
+
+# Include the Nothing Camera port
+$(call inherit-product, device/nothing/Aerodactyl-ntcamera/device.mk)
